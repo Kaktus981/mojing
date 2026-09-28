@@ -1,0 +1,34 @@
+node_modules/
+.pnpm-store/
+out/
+release/
+dist/
+coverage/
+.devlogs/
+docs/.render_*/
+*.tsbuildinfo
+*.log
+.env
+.env.*
+!.env.example
+*.db
+*.db-shm
+*.db-wal
+.DS_Store
+Thumbs.db
+playwright-report/
+test-results/
+.manju-dev/
+.mojing-dev/
+
+# Local Codex / workbench artifacts. These remain on disk for rollback or inspection,
+# but are not product source and should never enter a feature commit.
+/backups/
+/.agents/
+/.superpowers/
+/.workbuddy/
+/.workbuddy-backup-*/
+/.tmp-*/
+/.tmp-*
+/electron.vite.config.*.mjs
+/marker.txt

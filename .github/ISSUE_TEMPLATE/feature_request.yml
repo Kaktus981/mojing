@@ -1,0 +1,21 @@
+name: 功能建议
+description: 说明希望改善的创作流程
+title: "[建议] "
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: "请用虚构例子说明需求，不要上传作品正文、项目数据库或模型密钥。"
+  - type: textarea
+    id: problem
+    attributes:
+      label: 当前遇到的问题
+      description: 你在什么创作步骤中遇到困难？
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 希望怎样改进
+    validations:
+      required: true

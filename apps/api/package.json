@@ -1,0 +1,11 @@
+{
+  "name": "@mojing/api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": { ".": "./src/index.ts" },
+  "dependencies": {
+    "@mojing/contracts": "workspace:*",
+    "@mojing/core": "workspace:*"
+  }
+}

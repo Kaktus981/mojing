@@ -1,0 +1,175 @@
+/*
+ * 正文中央画布的局部视觉层。
+ * 96 / 97 是共享壳层；这里仅处理章名与稿纸的阅读节奏。
+ */
+.mjp-writing-workbench {
+  --writing-paper: color-mix(in srgb, var(--paper-0) 94%, var(--accent-soft));
+  --writing-rule: color-mix(in srgb, var(--line-1) 86%, var(--accent));
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-width: 0;
+  min-height: 100%;
+  color: var(--ink-900);
+  background: var(--writing-paper);
+  position: relative;
+  isolation: isolate;
+}
+
+.mjp-writing-workbench::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: .38;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--paper-0) 88%, transparent), color-mix(in srgb, var(--paper-0) 75%, transparent) 52%, color-mix(in srgb, var(--paper-0) 92%, transparent)),
+    radial-gradient(ellipse at 54% 48%, transparent 0 44%, color-mix(in srgb, var(--paper-0) 43%, transparent) 100%);
+}
+
+.mjp-writing-workbench::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .82;
+  background: var(--mjp-writing-art, none) center bottom / cover no-repeat;
+  filter: grayscale(.42) sepia(.16) saturate(.76);
+  mix-blend-mode: multiply;
+  mask-image: linear-gradient(118deg, transparent 0%, #000 16%, #000 84%, transparent 100%);
+}
+
+html[data-theme='night'] .mjp-writing-workbench::before { opacity: .45; }
+html[data-theme='night'] .mjp-writing-workbench::after {
+  opacity: .76;
+  mix-blend-mode: screen;
+  filter: grayscale(.58) sepia(.24) saturate(.62) brightness(.62);
+}
+
+.mjp-writing-workbench[data-ink-background='harbor'] {
+  --mjp-writing-art: url('../../../../assets/hall/cover-harbor.png');
+}
+
+.mjp-writing-workbench[data-ink-background='mountain'] {
+  --mjp-writing-art: url('../../../../assets/hall/cover-mountain.png');
+}
+
+.mjp-writing-workbench > .mjp-write {
+  flex: 1;
+  min-height: 100%;
+  position: relative;
+  z-index: 2;
+  background: transparent;
+}
+
+.mjp-writing-workbench > .mjp-empty {
+  position: relative;
+  z-index: 2;
+}
+
+.mjp-writing-workbench .mjp-editor {
+  flex: 1;
+  min-width: 0;
+  background: color-mix(in srgb, var(--writing-paper) 48%, transparent);
+}
+
+.mjp-writing-workbench .mjp-editor-bar {
+  align-items: flex-start;
+  gap: 10px;
+  padding: 18px clamp(18px, 3vw, 34px) 12px;
+  border-bottom: 1px solid var(--writing-rule);
+  background: color-mix(in srgb, var(--paper-1) 62%, transparent);
+}
+
+.mjp-writing-workbench .mjp-editor-title {
+  display: flex;
+  flex: 1 1 240px;
+  min-width: 0;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.mjp-writing-workbench .mjp-editor-chapter-no {
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: var(--fs-11);
+  letter-spacing: .08em;
+}
+
+.mjp-writing-workbench .mjp-editor-bar .ch-title {
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  font-family: var(--font-serif);
+  font-size: clamp(22px, 2.2vw, 30px);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: .015em;
+}
+
+.mjp-writing-workbench .mjp-editor-bar .ch-title:hover,
+.mjp-writing-workbench .mjp-editor-bar .ch-title:focus {
+  border-color: transparent;
+  background: transparent;
+}
+
+.mjp-writing-workbench .mjp-editor-bar .ch-title:focus {
+  box-shadow: inset 0 -2px 0 var(--accent);
+}
+
+.mjp-writing-workbench .mjp-editor-bar > .mjp-save-state {
+  align-self: center;
+  margin-left: auto;
+}
+
+.mjp-writing-workbench .mjp-editor-scroll {
+  padding: 20px 0 26px;
+  background: color-mix(in srgb, var(--writing-paper) 90%, transparent);
+}
+
+.mjp-writing-workbench .mjp-prose {
+  width: min(100%, 760px);
+  max-width: 760px;
+  box-sizing: border-box;
+  margin-inline: auto;
+  padding-inline: clamp(22px, 4vw, 42px);
+  font-size: 17px;
+  line-height: 1.95;
+}
+
+.mjp-writing-workbench .mjp-prose .para {
+  min-height: 1.95em;
+  padding: 2px 6px;
+  border-radius: 2px;
+  transition: background-color 140ms ease;
+}
+
+.mjp-writing-workbench .mjp-prose .para:hover {
+  background: color-mix(in srgb, var(--accent-soft) 28%, transparent);
+}
+
+.mjp-writing-workbench .mjp-prose .para:focus {
+  outline: none;
+  background: color-mix(in srgb, var(--accent-soft) 22%, transparent);
+}
+
+.mjp-writing-workbench[data-state='empty'] > .mjp-empty {
+  min-height: 360px;
+  display: grid;
+  place-content: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mjp-writing-workbench .mjp-prose .para { transition: none; }
+}
+
+@media (max-width: 720px) {
+  .mjp-writing-workbench[data-ink-background='harbor'],
+  .mjp-writing-workbench[data-ink-background='mountain'] { background-image: none; }
+  .mjp-writing-workbench .mjp-editor-bar { padding-inline: 16px; }
+}

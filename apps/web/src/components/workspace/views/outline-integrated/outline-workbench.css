@@ -1,0 +1,137 @@
+/* 大纲中央画布的局部视觉层。真实列表与详情由四个模块渲染，这里只调整其帧与阅读层级。 */
+.mjp-outline-workbench {
+  --outline-paper: color-mix(in srgb, var(--paper-0) 94%, var(--accent-soft));
+  display: block;
+  min-height: 100%;
+  position: relative;
+  isolation: isolate;
+  background: var(--outline-paper);
+  color: var(--ink-900);
+}
+
+.mjp-outline-workbench::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: .46;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--paper-0) 87%, transparent), color-mix(in srgb, var(--paper-0) 75%, transparent) 52%, color-mix(in srgb, var(--paper-0) 91%, transparent)),
+    radial-gradient(ellipse at 54% 48%, transparent 0 44%, color-mix(in srgb, var(--paper-0) 42%, transparent) 100%);
+}
+
+.mjp-outline-workbench::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: .70;
+  background: var(--mjp-outline-art, none) center bottom / cover no-repeat;
+  filter: grayscale(.42) sepia(.16) saturate(.76);
+  mix-blend-mode: multiply;
+  mask-image: linear-gradient(118deg, transparent 0%, #000 16%, #000 84%, transparent 100%);
+}
+
+html[data-theme='night'] .mjp-outline-workbench::before { opacity: .50; }
+html[data-theme='night'] .mjp-outline-workbench::after {
+  opacity: .68;
+  mix-blend-mode: screen;
+  filter: grayscale(.58) sepia(.24) saturate(.62) brightness(.62);
+}
+
+.mjp-outline-workbench[data-ink-background='mountain'] {
+  --mjp-outline-art: url('../../../../assets/hall/cover-mountain.png');
+}
+
+.mjp-outline-workbench[data-ink-background='harbor'] {
+  --mjp-outline-art: url('../../../../assets/hall/cover-harbor.png');
+}
+
+.mjp-outline-workbench[data-ink-background='city'] {
+  --mjp-outline-art: url('../../../../assets/hall/cover-city.png');
+}
+
+.mjp-outline-workbench-body {
+  min-width: 0;
+  max-width: 1420px;
+  margin-inline: auto;
+  padding: 18px clamp(16px, 2.6vw, 32px) 42px;
+  position: relative;
+  z-index: 2;
+}
+
+.mjp-outline-workbench .mjp-sec-h {
+  margin-top: 18px;
+  color: var(--ink-900);
+  font-size: var(--fs-16);
+}
+
+.mjp-outline-workbench .mjp-card,
+.mjp-outline-workbench .mjp-oi-fold {
+  border-color: color-mix(in srgb, var(--line-1) 88%, var(--accent));
+  background: color-mix(in srgb, var(--paper-1) 82%, transparent);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--ink-900) 5%, transparent);
+}
+
+.mjp-outline-workbench .mjp-overview {
+  background: color-mix(in srgb, var(--paper-1) 70%, transparent);
+}
+
+.mjp-outline-workbench .mjp-oi-plan,
+.mjp-outline-workbench .mjp-oi-lines {
+  gap: 16px;
+}
+
+.mjp-outline-workbench .mjp-oi-plan-list,
+.mjp-outline-workbench .mjp-oi-line-list {
+  position: sticky;
+  top: 12px;
+}
+
+.mjp-outline-workbench .mjp-oi-cards {
+  max-height: min(64vh, 640px);
+  padding: 2px;
+}
+
+.mjp-outline-workbench .mjp-oi-item {
+  min-height: 52px;
+  border-color: var(--control-border);
+  background: color-mix(in srgb, var(--paper-1) 88%, transparent);
+}
+
+.mjp-outline-workbench .mjp-oi-item.is-active {
+  background: var(--crystal-fill);
+  border-color: var(--crystal-edge);
+}
+
+.mjp-outline-workbench .mjp-oi-plan-detail {
+  min-width: 0;
+  padding-bottom: 8px;
+}
+
+.mjp-outline-workbench .mjp-beats-head {
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line-1);
+}
+
+.mjp-outline-workbench .mjp-oi-fold-h {
+  min-height: 44px;
+}
+
+@media (max-width: 900px) {
+  .mjp-outline-workbench[data-ink-background='mountain'],
+  .mjp-outline-workbench[data-ink-background='harbor'],
+  .mjp-outline-workbench[data-ink-background='city'] { background-image: none; }
+  .mjp-outline-workbench .mjp-oi-plan-list,
+  .mjp-outline-workbench .mjp-oi-line-list { position: static; }
+}
+
+@container oi-plan (max-width: 720px) {
+  .mjp-outline-workbench .mjp-oi-plan-list { position: static; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mjp-outline-workbench::before { transition: none; }
+}

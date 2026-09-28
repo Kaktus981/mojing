@@ -1,0 +1,234 @@
+/* 墨境 · 暖纸主题令牌（styles/95-paper-theme.css）
+ * ---------------------------------------------------------------------------
+ * 风格基线：参考样例工程 mojing-ui-design/prototype/styles.css（暖纸 + 墨绿）。
+ * 复用策略：颜色仍只走仓库既有的 --mj-* 语义槽，本文件做的是「主题覆写」，
+ * 不新增第二套颜色体系；样例里出现而仓库没有的槽位，才在下方补 --paper-*
+ * / --ink-* / --accent* 等派生令牌。组件层一律引用令牌，禁止硬编码色值。
+ *
+ * 主题切换：document.documentElement.dataset.theme = 'paper' | 'night'
+ * 默认暖纸（原 App.tsx 强制 dark，已在接线时改为 localStorage + 默认暖纸）。
+ */
+
+/* —— 与主题无关的尺度：字体、字号、间距、圆角、动效 —— */
+:root {
+  --font-ui: "PingFang SC", "Microsoft YaHei UI", "Noto Sans SC", "Segoe UI", system-ui, sans-serif;
+  --font-serif: "Source Han Serif SC", "Noto Serif SC", "Songti SC", "SimSun", Georgia, serif;
+  --font-mono: "Cascadia Mono", "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+
+  /* 墨境舒适级加大一号：正文与导航再提升一级，辅助信息保持可读下限。 */
+  --fs-11: 13px; --fs-12: 14px; --fs-13: 15px; --fs-14: 16px;
+  --fs-15: 17px; --fs-17: 19px; --fs-20: 24px; --fs-24: 30px;
+
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px;
+
+  /* 样例：控件 8 / 列表 10 / 卡片 14 / 大容器 18 / 胶囊 999 */
+  --r-sm: 4px; --r-md: 8px; --r-lg: 10px; --r-xl: 14px; --r-2xl: 18px; --r-pill: 999px;
+
+  --t-fast: 120ms; --t: 150ms; --t-slow: 240ms;
+  --ease: cubic-bezier(.2, .7, .3, 1);
+
+  /* 布局尺度（与样例一致） */
+  --h-topbar: 52px;
+  --w-rail: 68px;
+  --w-subnav: 232px;
+  --w-dock: 360px;
+}
+
+/* —— 盒模型：全站统一 border-box ——
+ * 上面这组布局令牌表达的都是「含描边的最终尺寸」：窄栏 68px 带 1px 右边框、
+ * 二级导航 232px 带 1px 右边框、助手栏 360px 带 1px 左边框、标题栏 52px 带
+ * 1px 下边框。在 content-box 下这些容器各会额外多占 1px，叠加后中央区右移，
+ * 并在文档级产生 1px 横向溢出（页面上表现为可以横向拖动一点点）。
+ * 这里统一收敛，令牌值与实测尺寸从此一致；各组件不再需要单独补 box-sizing。 */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+/* —— 暖纸（浅色，默认）：既有 --mj-* 语义槽覆写 —— */
+:root[data-theme='paper'] {
+  color-scheme: light;
+
+  --mj-bg: #f2ede4;
+  --mj-panel: #fbf8f2;
+  --mj-panel-2: #f7f2e8;
+  --mj-line: #e2d9c8;
+  --mj-text: #1f1b16;
+  --mj-muted: #6b6258;
+  --mj-success: #3e7a4a;
+  --mj-red: #a6453a;
+  /* 琥珀：样例里只作次级标注（待校 / 建议清理 / 记忆标签），不再是主操作色 */
+  --mj-gold: #b8842e;
+  /* 墨绿：全产品唯一强调色（品牌、primary、选中、焦点） */
+  --mj-accent: #2f5d55;
+  --mj-focus-ring: #2f5d55;
+  --mj-shadow-float: 0 1px 2px rgba(31, 27, 22, .06), 0 12px 30px rgba(31, 27, 22, .07);
+
+  /* 早期遗留槽位同步覆盖，避免老组件取到深色值 */
+  --bg: #f2ede4;
+  --panel: #fbf8f2;
+  --panel-2: #f7f2e8;
+  --panel-3: #efe8d9;
+  --surface: #fbf8f2;
+  --surface-elevated: #f7f2e8;
+  --border: #e2d9c8;
+  --border-light: #c9bea8;
+  --text: #1f1b16;
+  --muted: #6b6258;
+  --muted-2: #8e8576;
+  --accent: #2f5d55;
+  --amber: #b8842e;
+  --green: #3e7a4a;
+  --red: #a6453a;
+  --purple: #2f5d55;
+  --purple-2: #3e7a70;
+  --purple-soft: rgba(47, 93, 85, .1);
+  --shadow: 0 1px 2px rgba(31, 27, 22, .04), 0 4px 14px rgba(31, 27, 22, .04);
+  --focus-ring: #2f5d55;
+
+  /* —— 样例派生令牌（新增槽位） —— */
+  --paper-0: #f2ede4;
+  --paper-1: #fbf8f2;
+  --paper-2: #f7f2e8;
+  --paper-3: #efe8d9;
+
+  --line-1: #e2d9c8;
+  --line-2: #c9bea8;
+  --line-3: #b3a78f;
+
+  /* —— 交互控件边界（P2-A 新增）——
+     line token 只能用于静态卡片、分组框与分隔线：实测 --line-1 1.20:1、--line-2 1.58:1、
+     --line-3 2.04:1，全部低于 WCAG 2.2 对「控件边界」的 3:1 要求。
+     文字层 --ink-400 在 P0 已被上调为 #6f6759 承担正文，不能再兼职描边（语义混用）。
+     因此控件描边单列语义 token：默认态 #8e8576（对纸底 3.12 / 卡片底 3.44 / 次级底 3.26）；
+     hover 与激活态用 -strong 加深到 #7d7466（3.95 / 4.34 / 4.13），保证「悬停更明显」而不是更淡。 */
+  --control-border: #8e8576;
+  --control-border-strong: #7d7466;
+
+  --ink-900: #1f1b16;
+  --ink-700: #4a4138;
+  --ink-500: #6b6258;
+  /* 次级文字层。原 #8e8576 对纸底实测仅 3.12:1（正文门槛 4.5:1），上调为 4.79:1 / 卡片底 5.27:1。
+     让出来的 #8e8576 由 --control-border 承担（见上）。 */
+  --ink-400: #6f6759;
+  /* 仅用于禁用文字与占位符。原 #a99f8f 仅 2.24:1，上调为 3.30:1。 */
+  --ink-300: #8a8172;
+
+  --accent-2: #3e7a70;
+  --accent-soft: #d9e6e2;
+  --accent-ink: #fbf8f2;
+
+  /* 选中态的晶体层：用内高光与折射边缘表达状态，不把所有控件做成玻璃胶囊。 */
+  --crystal-fill: color-mix(in srgb, var(--accent-soft) 76%, var(--paper-1));
+  --crystal-edge: color-mix(in srgb, var(--accent) 42%, var(--line-1));
+  --crystal-top: color-mix(in srgb, var(--accent) 13%, var(--paper-1));
+  --crystal-bottom: rgb(47 93 85 / 12%);
+  --crystal-shadow: inset 0 1px 0 var(--crystal-top), inset 0 -1px 0 var(--crystal-bottom), 0 2px 6px rgb(47 93 85 / 8%);
+
+  /* AI 语义：亮绿实色标 + 浅绿底（与作者「墨绿实底」区分） */
+  --ai: #3e7a70;
+  --ai-ink: #274f49;
+  --ai-soft: #eaf1ee;
+
+  --danger: #a6453a; --danger-ink: #8c3a30; --danger-soft: #f5e0dc;
+  /* warn-ink 主要出现在 --warn-soft 底上：原 #8d6116 为 4.45:1（未达 4.5），上调为 5.00:1。 */
+  --warn: #b8842e;   --warn-ink: #85590f;   --warn-soft: #f4e7cc;
+  --ok: #3e7a4a;     --ok-ink: #2f5e3e;     --ok-soft: #dfecdf;
+  --info: #3f5f8a;   --info-ink: #33507a;   --info-soft: #dfe6f2;
+
+  --sh-1: 0 1px 2px rgba(31, 27, 22, .04), 0 4px 14px rgba(31, 27, 22, .04);
+  --sh-2: 0 1px 2px rgba(31, 27, 22, .06), 0 12px 30px rgba(31, 27, 22, .07);
+  --sh-3: 0 12px 32px rgba(31, 27, 22, .14), 0 2px 6px rgba(31, 27, 23, .06);
+  /* 原值 rgba(47,93,85,.28) 合成后对纸底仅 1.52:1（WCAG 2.2 焦点可见性门槛 3:1）。
+     改为「2px 纸色间隔环 + 2px 实心墨绿环」：墨绿对纸底 6.39:1、对卡片底 7.03:1。
+     间隔环同时解决「主按钮本身是墨绿、焦点环同色看不见」的问题。
+     仅改本 token，全站 37 处 :focus-visible 同步生效，不逐条改规则。 */
+  --focus-ring-shadow: 0 0 0 2px var(--paper-1), 0 0 0 4px var(--accent);
+}
+
+/* —— 夜墨（深色）：结构同构，色相沿用墨绿 —— */
+:root[data-theme='night'] {
+  --paper-0: #14161a;
+  --paper-1: #1c1f24;
+  --paper-2: #22262c;
+  --paper-3: #2a2f36;
+
+  --line-1: #2e343c;
+  --line-2: #3d454f;
+  --line-3: #4d5661;
+
+  /* 夜墨单独取值，不沿用暖纸数值：暖纸 #8e8576 是暖褐色相，压在冷灰蓝底上会发脏。
+     本档按夜墨自身的冷灰蓝标度取 #6f7887（对画布底 4.06 / 面板底 3.71 / 次级底 3.41），
+     hover 与激活态提亮到 #828b95（5.24 / 4.78 / 4.40）——深色底上「更明显」= 更亮。 */
+  --control-border: #6f7887;
+  --control-border-strong: #828b95;
+
+  --ink-900: #e8e5df;
+  --ink-700: #c8c4bd;
+  --ink-500: #9aa0a8;
+  /* 夜墨单独验算：原 #7c838c 在面板底 #1c1f24 上为 4.31:1（未达 4.5），上调为 5.26:1 / 画布底 5.76:1。 */
+  --ink-400: #8b929b;
+  /* 弱化文字（禁用态 + 空值/缺失值占位）。原 #61676f 在面板底仅 2.89:1。
+     P0 为抬对比度填了暖纸同值 #8a8172 —— 对比度达标（4.71/4.30），但它是暖褐色相
+     （R−B = +24），与夜墨冷灰蓝底不协调。改为同亮度档的冷灰 #7c838c（R−B = −16），
+     对比度 4.73 / 4.31 / 禁用控件底 3.52，仍全部达标。
+     不新开 --ink-disabled：本 token 同时也承担「空值 / 缺失值」占位文字（非禁用语义），
+     改名会误导；夜墨本来就该有自己的取值，这里补上即可。 */
+  --ink-300: #7c838c;
+
+  --accent: #5fae9f;
+  --accent-2: #43907f;
+  --accent-soft: #1d3631;
+  --accent-ink: #14161a;
+
+  --crystal-fill: color-mix(in srgb, var(--accent-soft) 82%, var(--paper-1));
+  --crystal-edge: color-mix(in srgb, var(--accent) 52%, var(--line-2));
+  --crystal-top: color-mix(in srgb, var(--accent) 28%, var(--paper-2));
+  --crystal-bottom: rgb(0 0 0 / 18%);
+  --crystal-shadow: inset 0 1px 0 var(--crystal-top), inset 0 -1px 0 var(--crystal-bottom), 0 2px 8px rgb(0 0 0 / 22%);
+
+  --ai: #5fae9f;
+  --ai-ink: #8fd0c2;
+  --ai-soft: #172b26;
+
+  --danger: #d9715c; --danger-ink: #f0a898; --danger-soft: #3d2320;
+  --warn: #d0a24a;   --warn-ink: #eec489;   --warn-soft: #3a2f18;
+  --ok: #5fa572;     --ok-ink: #9ed3a9;     --ok-soft: #1e3324;
+  --info: #6f92c4;   --info-ink: #a8c2e8;   --info-soft: #1f2937;
+
+  --sh-1: 0 1px 2px rgba(0, 0, 0, .3);
+  --sh-2: 0 2px 8px rgba(0, 0, 0, .36), 0 1px 2px rgba(0, 0, 0, .24);
+  --sh-3: 0 12px 32px rgba(0, 0, 0, .48), 0 2px 6px rgba(0, 0, 0, .3);
+  /* 夜墨单独验算：原值合成后更低。墨绿 #5fae9f 对画布底 6.94:1、对面板底 6.33:1。 */
+  --focus-ring-shadow: 0 0 0 2px var(--paper-1), 0 0 0 4px var(--accent);
+}
+
+/* 全局字体：样例为「衬线标题 + 无衬线正文」，这里只改正文栈，
+   标题由 .mj-* 组件自行声明 var(--font-serif)。 */
+body {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 15px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+
+html[data-theme-transition='on']::before {
+  content: ''; position: fixed; inset: 0; z-index: 2000; pointer-events: none;
+  background: linear-gradient(118deg, color-mix(in srgb, var(--accent) 58%, var(--paper-0)), transparent 42%, color-mix(in srgb, var(--paper-3) 70%, var(--accent)));
+  opacity: 0; animation: mjp-theme-ink-wash 620ms var(--ease) both;
+}
+@keyframes mjp-theme-ink-wash {
+  0% { opacity: 0; transform: translateX(-8%); }
+  34% { opacity: .48; }
+  100% { opacity: 0; transform: translateX(8%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition-duration: 0ms !important; animation-duration: 0ms !important; }
+  html[data-theme-transition='on']::before { animation: none !important; }
+  .mjp-spin,
+  .mjp-guide-spin,
+  .mjp-save-state.is-busy .dot,
+  .mjp-skeleton { animation: none !important; }
+}

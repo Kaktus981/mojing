@@ -1,0 +1,560 @@
+.skill-center-page {
+  min-height: 100%;
+  padding: 28px 30px 44px;
+  color: var(--ink-900);
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--paper-0) 92%, var(--accent-soft)), var(--paper-0) 260px),
+    var(--paper-0);
+}
+
+.skill-center-header,
+.skill-center-steps,
+.skill-center-page > .mjp-card,
+.skill-center-page > [data-skill-step] {
+  width: min(100%, 1120px);
+  margin-inline: auto;
+}
+
+.skill-center-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--line-1);
+}
+
+.skill-center-kicker {
+  margin: 0 0 8px;
+  color: var(--accent);
+  font-size: var(--fs-11);
+  letter-spacing: .16em;
+}
+
+.skill-center-header h1, .skill-center-header h2 {
+  margin: 0;
+  font: 600 clamp(26px, 3vw, 38px)/1.2 var(--font-serif);
+}
+
+.skill-center-lead {
+  max-width: 620px;
+  margin: 9px 0 0;
+  color: var(--ink-500);
+  font: 14px/1.75 var(--font-serif);
+}
+
+.skill-center-evidence {
+  display: inline-flex;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: 8px;
+  padding: 8px 11px;
+  color: var(--ink-600);
+  border: 1px solid var(--line-1);
+  background: color-mix(in srgb, var(--paper-1) 74%, transparent);
+  font-size: var(--fs-11);
+}
+
+.skill-center-evidence-dot {
+  width: 7px;
+  height: 7px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+
+.skill-center-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 20px;
+  margin-bottom: 18px;
+}
+
+.skill-center-steps button {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: 9px;
+  min-height: 56px;
+  padding: 10px 12px;
+  color: var(--ink-500);
+  border: 1px solid var(--line-1);
+  background: color-mix(in srgb, var(--paper-1) 64%, transparent);
+  text-align: left;
+  cursor: pointer;
+}
+
+.skill-center-steps button:hover { border-color: var(--control-border-strong); background: var(--paper-1); }
+.skill-center-steps button:focus-visible { outline: none; box-shadow: var(--focus-ring-shadow); }
+.skill-center-steps button.is-active { color: var(--ink-900); border-color: var(--crystal-edge); background: var(--crystal-fill); box-shadow: var(--crystal-shadow); }
+.skill-center-step-index { display: grid; place-items: center; width: 22px; height: 22px; color: var(--accent); border: 1px solid var(--crystal-edge); font: 600 11px var(--font-mono); }
+.skill-center-steps b, .skill-center-steps small { display: block; }
+.skill-center-steps b { font-size: 13px; }
+.skill-center-steps small { margin-top: 2px; color: var(--ink-400); font-size: var(--fs-11); line-height: 1.4; }
+
+.skill-center-page > [data-skill-step] > .mjp-card,
+.skill-center-page > .mjp-card { margin-bottom: 14px; }
+
+.skill-center-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 76px;
+  padding: 12px 14px;
+  border: 1px solid color-mix(in srgb, var(--control-border) 72%, var(--paper-1));
+  border-radius: var(--r-md);
+  background: color-mix(in srgb, var(--paper-0) 84%, var(--accent-soft));
+  color: var(--ink-900);
+  font: 13px/1.75 var(--font-serif);
+  resize: vertical;
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--paper-1) 70%, transparent);
+  transition: border-color var(--t-fast) var(--ease), box-shadow var(--t-fast) var(--ease), background-color var(--t-fast) var(--ease);
+}
+
+.skill-center-textarea:hover {
+  border-color: var(--control-border-strong);
+  background: color-mix(in srgb, var(--paper-0) 78%, var(--accent-soft));
+}
+
+.skill-center-textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: var(--paper-1);
+  box-shadow: var(--focus-ring-shadow);
+}
+
+.skill-center-textarea::placeholder { color: var(--ink-500); }
+.skill-center-textarea:disabled { background: var(--paper-3); color: var(--ink-400); border-color: var(--line-2); cursor: not-allowed; }
+
+.skill-center-step-actions { display: flex; align-items: center; justify-content: flex-end; gap: 8px; margin-top: 16px; }
+.skill-center-footer-actions { border-top: 1px solid var(--line-1); padding-top: 14px; }
+.skill-center-preview, .skill-center-version-preview { padding: 14px 16px; border: 1px solid var(--line-1); background: color-mix(in srgb, var(--paper-1) 72%, transparent); }
+.skill-center-preview-title { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.skill-center-preview p, .skill-center-preview li, .skill-center-version-preview p, .skill-center-version-preview li { color: var(--ink-600); font: 13px/1.7 var(--font-serif); }
+.skill-center-preview p, .skill-center-version-preview p { margin: 8px 0 0; }
+.skill-center-preview ul, .skill-center-version-preview ul { margin: 8px 0 0; padding-left: 18px; }
+.skill-center-muted { color: var(--ink-400); font: 13px/1.7 var(--font-serif); }
+.skill-center-load-meta { display: block; margin-top: 4px; color: var(--ink-400); font-size: var(--fs-11); }
+.skill-center-version-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line-1); }
+.skill-center-version-row:last-child { border-bottom: 0; }
+.skill-center-version-row b, .skill-center-version-row small { display: block; }
+.skill-center-version-row small { margin-top: 2px; color: var(--ink-400); font-size: var(--fs-11); }
+
+@media (prefers-reduced-motion: reduce) {
+  .skill-center-steps button, .skill-center-textarea { transition: none; }
+}
+
+/* ===================== 墨境技能中心 · 工作台层 ===================== */
+.skill-center-page {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--paper-0);
+}
+
+.skill-center-page::before,
+.skill-center-page::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.skill-center-page::before {
+  z-index: 0;
+  opacity: .18;
+  background: var(--skill-center-art, none) center bottom / cover no-repeat;
+  filter: grayscale(.42) sepia(.16) saturate(.76);
+  mix-blend-mode: multiply;
+  mask-image: linear-gradient(118deg, transparent 0%, #000 16%, #000 84%, transparent 100%);
+}
+
+.skill-center-page::after {
+  z-index: 0;
+  opacity: .80;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--paper-0) 88%, transparent), color-mix(in srgb, var(--paper-0) 70%, transparent) 58%, color-mix(in srgb, var(--paper-0) 88%, transparent)),
+    radial-gradient(ellipse at 52% 48%, transparent 0 46%, color-mix(in srgb, var(--paper-0) 38%, transparent) 100%);
+}
+
+.skill-center-page[data-skill-active='directory'] { --skill-center-art: url('../assets/hall/landscape.png'); }
+.skill-center-page[data-skill-active='connect'] { --skill-center-art: url('../assets/hall/cover-harbor.png'); }
+.skill-center-page[data-skill-active='permissions'] { --skill-center-art: url('../assets/hall/cover-mountain.png'); }
+.skill-center-page[data-skill-active='versions'] { --skill-center-art: url('../assets/hall/cover-city.png'); }
+
+.skill-center-page > * { position: relative; z-index: 1; }
+.skill-center-page [hidden] { display: none !important; }
+
+.skill-center-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  border-block: 1px solid var(--line-1);
+  background: color-mix(in srgb, var(--paper-1) 42%, transparent);
+}
+
+.skill-center-steps button {
+  position: relative;
+  min-height: 64px;
+  border: 0;
+  border-right: 1px solid var(--line-1);
+  background: transparent;
+  transition: background-color 160ms ease, color 160ms ease, box-shadow 160ms ease;
+}
+
+.skill-center-steps button:last-child { border-right: 0; }
+.skill-center-steps button:hover { background: color-mix(in srgb, var(--paper-1) 70%, transparent); }
+.skill-center-steps button.is-active {
+  margin: -1px 0;
+  border: 1px solid var(--crystal-edge);
+  border-radius: var(--r-md);
+  background: var(--crystal-fill);
+  box-shadow: var(--crystal-shadow);
+}
+
+.skill-center-directory {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(0, .88fr);
+  gap: 14px;
+  width: min(100%, 1120px);
+  margin: 0 auto;
+}
+
+.skill-center-directory > .assistant-seat-assembly {
+  grid-column: 1 / -1;
+  padding: 2px 2px 4px;
+  border-bottom: 1px solid var(--line-1);
+}
+
+.skill-center-directory > .skill-center-model-card { grid-column: 1; }
+.skill-center-directory > .skill-center-library-card { grid-column: 1 / -1; }
+.skill-center-directory > .skill-center-task-card { grid-column: 2; }
+
+.skill-center-directory > div > .mjp-card {
+  height: 100%;
+  margin-bottom: 0;
+  border-radius: var(--r-lg);
+  background: color-mix(in srgb, var(--paper-1) 78%, transparent);
+  box-shadow: 0 10px 26px color-mix(in srgb, var(--ink-900) 5%, transparent);
+}
+
+.skill-center-library-card .custom-skill-row {
+  padding: 8px 0 10px;
+  border-bottom: 1px solid var(--line-1);
+}
+
+.skill-center-library-card .custom-skill-row:last-of-type { border-bottom: 0; }
+.skill-center-library-card .mjp-health-row { align-items: flex-start; gap: 14px; }
+.skill-center-library-card .mjp-health-row .nm { line-height: 1.6; }
+
+.skill-center-page > [data-skill-step='connect'] > .mjp-card,
+.skill-center-page > [data-skill-step='permissions'] > .mjp-card,
+.skill-center-page > [data-skill-step='versions'] > .mjp-card {
+  margin-bottom: 0;
+  border-radius: var(--r-lg);
+  background: color-mix(in srgb, var(--paper-1) 80%, transparent);
+  box-shadow: 0 10px 26px color-mix(in srgb, var(--ink-900) 5%, transparent);
+}
+
+.skill-center-page > [data-skill-step='connect'] .mjp-notice,
+.skill-center-page > [data-skill-step='permissions'] .skill-center-preview,
+.skill-center-page > [data-skill-step='versions'] .skill-center-version-preview {
+  border-color: color-mix(in srgb, var(--line-1) 78%, var(--accent));
+  background: color-mix(in srgb, var(--paper-0) 62%, transparent);
+}
+
+html[data-theme='night'] .skill-center-page::before {
+  opacity: .24;
+  mix-blend-mode: screen;
+  filter: grayscale(.58) sepia(.24) saturate(.62) brightness(.62);
+}
+
+html[data-theme='night'] .skill-center-page::after { opacity: .66; }
+
+/* 文笔工坊：主页面只保留画像库，学习和详情通过同一右侧抽屉展开。 */
+.style-workshop-page {
+  min-height: 100%;
+  padding: 26px 30px 44px;
+  color: var(--ink-900);
+  background: var(--paper-0);
+}
+
+.style-workshop-header,
+.style-profile-library {
+  width: min(100%, 1120px);
+  margin-inline: auto;
+}
+
+.style-workshop-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--line-1);
+}
+
+.style-workshop-kicker {
+  margin: 0 0 7px;
+  color: var(--accent);
+  font-size: var(--fs-11);
+  letter-spacing: .14em;
+}
+
+.style-workshop-header h2,
+.style-workshop-drawer-header h2 {
+  margin: 0;
+  font: 600 clamp(24px, 3vw, 34px)/1.2 var(--font-serif);
+}
+
+.style-workshop-lead {
+  max-width: 580px;
+  margin: 8px 0 0;
+  color: var(--ink-500);
+  font: 14px/1.7 var(--font-serif);
+}
+
+.style-workshop-tabs {
+  display: flex;
+  gap: 22px;
+  width: min(100%, 1120px);
+  margin: 18px auto 0;
+  border-bottom: 1px solid var(--line-1);
+}
+
+.style-workshop-tabs button {
+  position: relative;
+  padding: 0 0 11px;
+  border: 0;
+  background: transparent;
+  color: var(--ink-500);
+  font: 14px/1.4 var(--font-serif);
+  cursor: pointer;
+}
+
+.style-workshop-tabs button:hover,
+.style-workshop-tabs button:focus-visible,
+.style-workshop-tabs button.is-active { color: var(--ink-900); }
+.style-workshop-tabs button:focus-visible { outline: none; box-shadow: var(--focus-ring-shadow); }
+.style-workshop-tabs button.is-active::after {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 2px;
+  background: var(--accent);
+  content: '';
+}
+
+.style-profile-library {
+  margin-top: 18px;
+  border-radius: var(--r-lg);
+  background: color-mix(in srgb, var(--paper-1) 82%, transparent);
+  box-shadow: 0 10px 26px color-mix(in srgb, var(--ink-900) 5%, transparent);
+}
+
+.style-workshop-empty {
+  display: grid;
+  justify-items: start;
+  gap: 9px;
+}
+
+.style-workshop-empty p,
+.style-workshop-step-summary,
+.style-workshop-drawer-note,
+.style-workshop-result p {
+  margin: 0;
+  color: var(--ink-500);
+  font: 13px/1.7 var(--font-serif);
+}
+
+.style-workshop-profile-list { display: grid; }
+
+.style-workshop-profile-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(120px, .8fr) auto;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 0;
+  width: 100%;
+  border-bottom: 1px solid var(--line-1);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.style-workshop-profile-row:last-child { border-bottom: 0; }
+.style-workshop-profile-row:hover { background: color-mix(in srgb, var(--paper-0) 46%, transparent); }
+.style-workshop-profile-row:focus-visible { outline: none; box-shadow: var(--focus-ring-shadow); }
+
+.style-workshop-profile-main,
+.style-workshop-profile-status,
+.style-workshop-profile-meta {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.style-workshop-profile-main { gap: 8px; flex-wrap: wrap; }
+.style-workshop-profile-main b { font: 600 15px/1.4 var(--font-serif); }
+.style-workshop-profile-meta { gap: 6px; color: var(--ink-500); font-size: 12px; line-height: 1.5; }
+.style-workshop-profile-status { justify-content: flex-end; gap: 8px; }
+
+.style-workshop-drawer-layer { position: fixed; inset: 0; z-index: 90; }
+
+.style-workshop-drawer-scrim {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  border: 0;
+  background: color-mix(in srgb, var(--ink-900) 24%, transparent);
+  cursor: default;
+}
+
+.style-workshop-drawer {
+  position: absolute;
+  inset-block: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  width: min(520px, calc(100vw - 76px));
+  overflow: auto;
+  padding: 24px 26px 36px;
+  border-left: 1px solid var(--line-2);
+  background: var(--paper-0);
+  box-shadow: -14px 0 34px color-mix(in srgb, var(--ink-900) 12%, transparent);
+}
+
+.style-workshop-drawer-header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line-1);
+}
+
+.style-workshop-drawer-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  margin: 18px 0 14px;
+  border-block: 1px solid var(--line-1);
+}
+
+.style-workshop-drawer-steps button {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 46px;
+  padding: 8px 10px;
+  border: 0;
+  border-right: 1px solid var(--line-1);
+  background: transparent;
+  color: var(--ink-500);
+  font-size: 12px;
+  text-align: left;
+}
+
+.style-workshop-drawer-steps button:last-child { border-right: 0; }
+.style-workshop-drawer-steps button:not(:disabled) { cursor: pointer; }
+.style-workshop-drawer-steps button:hover:not(:disabled) { background: var(--paper-1); color: var(--ink-900); }
+.style-workshop-drawer-steps button:focus-visible { outline: none; box-shadow: var(--focus-ring-shadow); }
+.style-workshop-drawer-steps button.is-active { color: var(--ink-900); background: var(--crystal-fill); }
+.style-workshop-drawer-steps button span { color: var(--accent); font: 600 11px var(--font-mono); }
+.style-workshop-drawer-steps button:disabled { opacity: .48; }
+
+.style-workshop-drawer-card { margin: 0; border-radius: var(--r-lg); background: color-mix(in srgb, var(--paper-1) 82%, transparent); }
+.style-workshop-drawer-card .mjp-card-bd { display: grid; gap: 12px; }
+.style-workshop-drawer-actions { justify-content: flex-end; gap: 8px; flex-wrap: wrap; }
+.style-workshop-file-name { margin: 0; font-size: 12px; }
+.style-workshop-drawer-note { padding-top: 4px; border-top: 1px solid var(--line-1); }
+.style-workshop-segment-row { align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--line-1); }
+.style-workshop-segment-row:last-of-type { border-bottom: 0; }
+
+.style-workshop-sample-list,
+.style-workshop-traits,
+.style-workshop-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 6px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line-1);
+}
+
+.style-workshop-subheading { color: var(--ink-600); font-size: 12px; font-weight: 600; }
+.style-workshop-sample-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--line-1); }
+.style-workshop-sample-row:last-child { border-bottom: 0; }
+.style-workshop-sample-row span { display: grid; gap: 2px; min-width: 0; }
+.style-workshop-sample-row small { color: var(--ink-500); font-size: 11px; }
+
+.style-workshop-sample-library,
+.style-workshop-usage-record { display: grid; gap: 0; }
+.style-workshop-sample-library-row,
+.style-workshop-usage-record {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line-1);
+}
+.style-workshop-sample-library-row:last-child { border-bottom: 0; }
+.style-workshop-sample-library-row > div,
+.style-workshop-usage-record > div { display: grid; gap: 4px; min-width: 0; }
+.style-workshop-sample-library-row b,
+.style-workshop-usage-record b { font: 600 15px/1.4 var(--font-serif); }
+.style-workshop-sample-library-row span,
+.style-workshop-usage-record span { color: var(--ink-500); font-size: 12px; }
+.style-workshop-usage-record { grid-template-columns: auto minmax(0, 1fr) auto; }
+
+.style-workshop-result { display: grid; gap: 8px; margin-top: 4px; padding-top: 12px; border-top: 1px solid var(--line-1); }
+.style-workshop-profile-detail { display: grid; gap: 16px; padding-top: 18px; }
+.style-workshop-profile-detail .style-workshop-drawer-actions { display: flex; }
+.style-workshop-profile-meta { flex-wrap: wrap; }
+.style-workshop-profile-description { margin: 0; color: var(--ink-700); font: 15px/1.8 var(--font-serif); }
+.style-workshop-profile-detail > .style-workshop-profile-description {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+.style-workshop-profile-glance {
+  display: grid;
+  gap: 8px;
+  padding: 16px 18px;
+  border: 1px solid var(--line-1);
+  border-radius: var(--r-lg);
+  background: color-mix(in srgb, var(--paper-1) 82%, transparent);
+}
+.style-workshop-profile-full { border-top: 1px solid var(--line-1); }
+.style-workshop-profile-full summary {
+  padding: 14px 0;
+  color: var(--accent);
+  font: 600 var(--fs-13)/1.5 var(--font-serif);
+  cursor: pointer;
+}
+.style-workshop-profile-full summary:focus-visible { outline: none; box-shadow: var(--focus-ring-shadow); }
+.style-workshop-profile-full > .style-workshop-profile-description { padding: 2px 0 10px; }
+.style-workshop-profile-full .style-workshop-traits { margin-top: 0; }
+.style-workshop-trait-row { display: grid; grid-template-columns: 88px minmax(0, 1fr); gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--line-1); }
+.style-workshop-profile-glance .style-workshop-trait-row:last-child { border-bottom: 0; }
+.style-workshop-trait-row span { color: var(--ink-500); font-size: var(--fs-12); }
+.style-workshop-trait-row b { overflow-wrap: anywhere; color: var(--ink-800); font: var(--fs-13)/1.6 var(--font-serif); }
+.style-workshop-profile-glance .style-workshop-trait-row b {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.style-workshop-list ul { margin: 0; padding-left: 18px; color: var(--ink-700); font: var(--fs-13)/1.75 var(--font-serif); }
+
+@media (max-width: 900px) {
+  .style-workshop-profile-row { grid-template-columns: 1fr auto; }
+  .style-workshop-profile-row > .style-workshop-profile-meta { grid-column: 1; }
+  .style-workshop-profile-status { grid-column: 2; grid-row: 1 / span 2; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .style-workshop-drawer-steps button { transition: none; }
+}

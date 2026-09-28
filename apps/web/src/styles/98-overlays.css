@@ -1,0 +1,119 @@
+/* 墨境 · 浮层与反馈（styles/98-overlays.css）
+ * ---------------------------------------------------------------------------
+ * 本文件补齐组件库中「浮层类」原语：遮罩 / 模态 / 表单网格 / 复选行 / 表单消息 / toast。
+ * 这些原语原先散落在旧代样式表 styles.css（深色）里，只有 MojingProviderDialog 与
+ * App 的全局 toast 还在用；迁移到 mjp- 语言后，旧样式表整体删除。
+ *
+ * 约束：只引用 styles/95-paper-theme.css 的令牌，不写硬编码色值；
+ *      与 96-paper-shell.css 的按钮 / 表单 / 卡片保持同一套尺度（控件 32/34，圆角 --r-md/--r-xl）。
+ */
+
+/* ===================== 遮罩与模态 ===================== */
+.mjp-mask {
+  position: fixed; inset: 0; z-index: 1000; padding: 24px;
+  display: grid; place-items: center;
+  background: rgba(31, 27, 22, .42);
+  animation: mjp-mask-in var(--t) var(--ease);
+}
+.mjp-modal {
+  width: min(620px, 94vw); max-height: 90vh; overflow: auto;
+  background: var(--paper-1); border: 1px solid var(--line-1); border-radius: var(--r-2xl);
+  box-shadow: var(--sh-3);
+  animation: mjp-modal-in var(--t-slow) var(--ease);
+}
+.mjp-modal-hd {
+  display: flex; align-items: flex-start; gap: var(--sp-3);
+  padding: 18px var(--sp-6) 14px; border-bottom: 1px solid var(--line-1);
+}
+.mjp-modal-hd .ti { flex: 1; min-width: 0; }
+.mjp-modal-hd .eyebrow { font-size: var(--fs-11); color: var(--ink-400); letter-spacing: .1em; margin: 0 0 4px; }
+.mjp-modal-hd h3 {
+  margin: 0; font-family: var(--font-serif); font-size: var(--fs-20);
+  font-weight: 600; color: var(--ink-900);
+}
+.mjp-modal-bd { padding: var(--sp-5) var(--sp-6); }
+.mjp-modal-ft {
+  display: flex; align-items: center; gap: var(--sp-2);
+  padding: 14px var(--sp-6) 18px; border-top: 1px solid var(--line-1); background: var(--paper-2);
+}
+.mjp-modal-ft .hint { margin-right: auto; font-size: var(--fs-11); color: var(--ink-400); }
+
+/* 模态内说明块：用于「密钥只存本机」这类安全声明 */
+.mjp-modal-note {
+  margin: 0 0 var(--sp-4); padding: 10px 12px;
+  background: var(--paper-2); border: 1px solid var(--line-1); border-left: 3px solid var(--accent);
+  border-radius: var(--r-md); font-size: var(--fs-12); line-height: 1.65; color: var(--ink-500);
+}
+
+/* ===================== 模态内的表单网格 ===================== */
+.mjp-form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.mjp-form-grid > * { min-width: 0; }
+.mjp-form-grid > .full { grid-column: 1 / -1; }
+
+/* 复选行（内联说明的 checkbox，非开关） */
+.mjp-check {
+  display: flex; flex-direction: row; align-items: center; gap: 8px;
+  font-size: var(--fs-13); color: var(--ink-700); cursor: pointer;
+}
+.mjp-check input[type='checkbox'] {
+  width: 15px; height: 15px; margin: 0; flex: 0 0 15px;
+  accent-color: var(--accent); cursor: pointer;
+}
+.mjp-check:has(input:disabled) { opacity: 1; color: var(--ink-300); cursor: not-allowed; }
+
+/* 本机地址提示：正向信息块（与 modal-note 同族，语义为「无需 Key」） */
+.mjp-inline-note {
+  grid-column: 1 / -1; margin: -4px 0 0; padding: 8px 10px;
+  background: var(--ai-soft); border: 1px solid var(--accent-soft); border-left: 3px solid var(--ai);
+  border-radius: var(--r-md); font-size: var(--fs-12); line-height: 1.6; color: var(--ai-ink);
+}
+
+/* ===================== 表单消息（三态，替代旧的单一样式 provider-message） ===================== */
+.mjp-form-msg {
+  margin: var(--sp-4) 0 0; padding: 8px 10px; border-radius: var(--r-md);
+  font-size: var(--fs-12); line-height: 1.6;
+  border: 1px solid var(--line-1); background: var(--paper-2); color: var(--ink-500);
+}
+.mjp-form-msg.is-ok { background: var(--ok-soft); border-color: transparent; color: var(--ok-ink); }
+.mjp-form-msg.is-error { background: var(--danger-soft); border-color: transparent; color: var(--danger-ink); }
+.mjp-form-msg.is-info { background: var(--info-soft); border-color: transparent; color: var(--info-ink); }
+
+/* ===================== 全局 toast ===================== */
+.mjp-toasts {
+  position: fixed; z-index: 1200; right: 20px; bottom: 20px;
+  display: flex; flex-direction: column; gap: 8px; max-width: calc(100vw - 40px); pointer-events: none;
+}
+.mjp-toasts > div:empty { display: none; }
+.mjp-toast {
+  pointer-events: auto;
+  max-width: 520px; min-height: 48px;
+  display: grid; grid-template-columns: 22px minmax(0, 1fr) 28px; gap: 8px; align-items: center;
+  padding: 10px 9px 10px 13px;
+  background: var(--paper-1); border: 1px solid var(--line-1); border-left: 3px solid var(--ink-400);
+  border-radius: var(--r-lg); box-shadow: var(--sh-3);
+  font-size: var(--fs-12); color: var(--ink-700);
+  animation: mjp-toast-in var(--t-slow) var(--ease);
+}
+.mjp-toast > svg { color: var(--ink-400); }
+.mjp-toast.is-success { border-left-color: var(--ok); }
+.mjp-toast.is-success > svg { color: var(--ok); }
+.mjp-toast.is-error { border-left-color: var(--danger); }
+.mjp-toast.is-error > svg { color: var(--danger); }
+.mjp-toast-content { display: grid; gap: 8px; overflow-wrap: anywhere; }
+.mjp-toast-content .mjp-btn { justify-self: start; }
+.mjp-toast > button {
+  display: grid; place-items: center; width: 28px; height: 28px;
+  border: 0; border-radius: var(--r-md); background: transparent; color: var(--ink-400); cursor: pointer;
+}
+.mjp-toast > button:hover { background: var(--paper-2); color: var(--ink-900); }
+.mjp-toast > button:focus-visible { outline: none; box-shadow: var(--focus-ring-shadow); }
+
+/* ===================== 动效 ===================== */
+@keyframes mjp-mask-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes mjp-modal-in { from { opacity: 0; transform: translateY(8px) scale(.985); } to { opacity: 1; transform: none; } }
+@keyframes mjp-toast-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+@media (max-width: 640px) {
+  .mjp-form-grid { grid-template-columns: minmax(0, 1fr); }
+  .mjp-modal-ft { flex-wrap: wrap; }
+}

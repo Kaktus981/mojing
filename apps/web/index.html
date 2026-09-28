@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' http://localhost:* http://127.0.0.1:*; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'nonce-mojing-file-help'" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon.png" />
+    <title>墨境</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script nonce="mojing-file-help">
+      const sourcePath = decodeURIComponent(window.location.pathname).replaceAll('\\\\', '/')
+      const openedSourceFileDirectly = window.location.protocol === 'file:' && /\/apps\/web\/index\.html$/i.test(sourcePath)
+      if (openedSourceFileDirectly) {
+        const root = document.getElementById('root')
+        root.innerHTML = `
+          <main style="min-height:100vh;box-sizing:border-box;display:grid;place-items:center;padding:32px;background:#0d0b13;color:#f7f3ff;font-family:'Microsoft YaHei UI','Microsoft YaHei',sans-serif;">
+            <section style="width:min(680px,100%);box-sizing:border-box;padding:36px;border:1px solid #3f3653;border-radius:20px;background:#17131f;box-shadow:0 24px 80px rgba(0,0,0,.35);">
+              <p style="margin:0 0 10px;color:#d5a84c;font-size:14px;font-weight:700;letter-spacing:.08em;">墨境 · 浏览器开发版</p>
+              <h1 style="margin:0 0 18px;font-size:30px;line-height:1.35;">不能直接打开这个 HTML 文件</h1>
+              <p style="margin:0 0 14px;color:#d7cfe3;font-size:16px;line-height:1.8;">这是 React + Vite 源码入口，必须先启动本机前端和 API 服务。</p>
+              <ol style="margin:0 0 22px;padding-left:24px;color:#eee8f5;font-size:16px;line-height:2;">
+                <li>返回项目根目录。</li>
+                <li>在项目根目录打开终端，运行 npm run dev。</li>
+                <li>等待启动完成，再访问 http://localhost:5173。</li>
+              </ol>
+              <p style="margin:0;padding:14px 16px;border-radius:12px;background:#211a2d;color:#bda9f3;font-size:14px;line-height:1.7;">运行期间请保留终端窗口；按 Ctrl+C 即可停止前后端服务。</p>
+            </section>
+          </main>`
+      }
+    </script>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

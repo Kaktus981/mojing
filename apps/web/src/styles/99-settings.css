@@ -1,0 +1,480 @@
+/* 墨境 · 设置中心（styles/99-settings.css）
+ * ---------------------------------------------------------------------------
+ * 只为「设置中心」七栏补齐参考样例 stage4-settings 里有、而 96 外壳尚未提供的
+ * 布局原语：
+ *   .mjp-rowline      三列信息行（190px 标签 / 取值 / 动作），虚线分隔
+ *   .mjp-path         等宽路径条（带连通状态点）
+ *   .mjp-kv-grid      键值网格（默认 2 列，.is-3 三列）
+ *   .mjp-prose-preview 正文字体预览块
+ *   .mjp-tbl-wrap     表格横向滚动容器（.is-inset 限高纵滚 + 描边）
+ *   .mjp-settings-foot 页脚说明
+ * 以及外观偏好（正文字体 / 动效）真正落地所需的两条规则。
+ *
+ * 约束与既有样式表一致：
+ *   - 只引用 styles/95-paper-theme.css 的令牌，不写硬编码色值；
+ *   - 不重复定义 96/98 已有的 .mjp-card / .mjp-kv / .mjp-tbl / .mjp-btn / .mjp-tag
+ *     / .mjp-status / .mjp-banner / .mjp-hint / .mjp-seg / .mjp-muted，
+ *     只补它们在设置页里缺的部分；
+ *   - 必须在 main.tsx 显式 import，否则 Vite 不会把本文件打进产物（历史上整份
+ *     样式表曾因未被 import 而静默失效）。
+ *
+ * 主题：不做第二套色值。documentElement.dataset.theme 为 paper/night 时，
+ * 下方全部令牌由 95-paper-theme.css 派生，切换主题不会导致设置页布局跳变。
+ */
+
+/* ===================== 设置页骨架 ===================== */
+.mjp-body.mjp-settings {
+  grid-template-columns: var(--w-subnav) minmax(0, 1fr);
+}
+.mjp-settings .mjp-snav-scroll {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 10px;
+}
+.mjp-settings .mjp-canvas {
+  min-width: 0;
+}
+.mjp-settings .mjp-canvas-scroll {
+  padding: 0;
+}
+/* 设置页不用工作区画布的角落插图；夜间它会显出矩形底层。 */
+.mjp-settings .mjp-canvas::before {
+  display: none;
+}
+.mjp-settings-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-height: 100%;
+  padding: 30px clamp(24px, 4vw, 56px) 44px;
+  box-sizing: border-box;
+}
+.mjp-settings-hero {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 28px;
+  width: min(100%, 1180px);
+  margin: 0 auto;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--line-1);
+}
+.mjp-settings-heading {
+  min-width: 0;
+}
+.mjp-settings-heading .eyebrow {
+  margin: 0 0 6px;
+  font-size: var(--fs-11);
+  color: var(--ink-400);
+  letter-spacing: .08em;
+}
+.mjp-settings-heading h2 {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-24);
+  line-height: 1.2;
+  color: var(--ink-900);
+}
+.mjp-settings-heading > p:last-child {
+  max-width: 720px;
+  margin: 8px 0 0;
+  font-size: var(--fs-13);
+  line-height: 1.7;
+  color: var(--ink-500);
+}
+.mjp-settings-hero .actions {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+}
+.mjp-settings-content > .mjp-card {
+  border-radius: var(--r-xl);
+  box-shadow: var(--sh-1);
+}
+.mjp-settings-section-head .actions {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: var(--sp-2);
+}
+.mjp-settings-summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  width: min(100%, 1180px);
+  margin: 0 auto;
+  padding: 18px 20px;
+  box-sizing: border-box;
+  border: 1px solid var(--line-1);
+  border-radius: var(--r-xl);
+  background: color-mix(in srgb, var(--paper-1) 84%, transparent);
+  box-shadow: var(--sh-1);
+}
+.mjp-settings-summary-main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+.mjp-settings-summary-mark {
+  width: 8px;
+  height: 42px;
+  flex: 0 0 8px;
+  border-radius: var(--r-pill);
+  background: var(--accent);
+}
+.mjp-settings-summary-main strong {
+  display: block;
+  font-size: var(--fs-14);
+  color: var(--ink-900);
+}
+.mjp-settings-summary-main p {
+  margin: 4px 0 0;
+  font-size: var(--fs-12);
+  color: var(--ink-500);
+}
+.mjp-settings-summary-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding-left: 20px;
+  border-left: 1px solid var(--line-1);
+}
+.mjp-settings-summary-stat strong {
+  font-family: var(--font-serif);
+  font-size: var(--fs-19);
+  line-height: 1;
+  color: var(--ink-900);
+}
+.mjp-settings-summary-stat span {
+  margin-top: 5px;
+  font-size: var(--fs-11);
+  color: var(--ink-400);
+}
+.mjp-settings-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: min(100%, 1180px);
+  margin: 0 auto;
+}
+.mjp-settings-section {
+  padding-top: 10px;
+}
+.mjp-settings-section + .mjp-settings-section {
+  padding-top: 30px;
+  border-top: 1px solid var(--line-1);
+}
+.mjp-settings-section-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 18px;
+}
+.mjp-settings-section-head .eyebrow {
+  font-size: var(--fs-11);
+  color: var(--ink-400);
+}
+.mjp-settings-section-head h3 {
+  margin: 4px 0 0;
+  font-family: var(--font-serif);
+  font-size: var(--fs-19);
+  color: var(--ink-900);
+}
+.mjp-settings-section-head p {
+  margin: 5px 0 0;
+  color: var(--ink-500);
+  font-size: var(--fs-13);
+}
+.mjp-settings-section-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.mjp-settings-section-body > .mjp-card {
+  border-radius: var(--r-xl);
+  box-shadow: var(--sh-1);
+}
+.mjp-settings-section-body > .mjp-card .mjp-card-hd {
+  padding: 18px 22px;
+}
+.mjp-settings-section-body > .mjp-card .mjp-card-bd {
+  padding: 20px 22px;
+}
+.mjp-settings-advanced {
+  width: 100%;
+  border: 1px solid var(--line-1);
+  border-radius: var(--r-xl);
+  background: color-mix(in srgb, var(--paper-1) 78%, transparent);
+  overflow: hidden;
+}
+.mjp-settings-advanced > summary {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 20px;
+  cursor: pointer;
+  list-style: none;
+  font-size: var(--fs-13);
+  font-weight: 600;
+  color: var(--ink-700);
+}
+.mjp-settings-advanced > summary::-webkit-details-marker { display: none; }
+.mjp-settings-advanced > summary::after {
+  content: '+';
+  margin-left: auto;
+  color: var(--ink-400);
+  font-family: var(--font-ui);
+  font-size: var(--fs-17);
+  font-weight: 400;
+}
+.mjp-settings-advanced[open] > summary { border-bottom: 1px solid var(--line-1); }
+.mjp-settings-advanced[open] > summary::after { content: '−'; }
+.mjp-settings-advanced-body { padding: 18px 20px; }
+/* Actual pointer boxes, including compact controls, follow the 44px contract. */
+.mjp-settings button,
+.mjp-settings .mjp-switch,
+.mjp-app:has(.mjp-settings) > .mjp-main > .mjp-topbar button {
+  min-width: 44px;
+  min-height: 44px;
+}
+.mjp-settings .mjp-seg {
+  flex-wrap: wrap;
+}
+/* ===================== 三列信息行 ===================== */
+/* 参考样例 .rowline 的语义：左列固定宽标签块（含 .lab 主标签与 .help 说明），
+   中列取值，右列动作。分隔用虚线，避免与卡片实线边框混淆。 */
+.mjp-rowline {
+  display: grid;
+  grid-template-columns: 190px minmax(0, 1fr) auto;
+  gap: var(--sp-4);
+  align-items: start;
+  padding: 13px 0;
+  border-bottom: 1px dashed var(--line-1);
+}
+.mjp-rowline:first-child {
+  padding-top: 0;
+}
+.mjp-rowline:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+.mjp-rowline .lab {
+  font-size: var(--fs-13);
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--ink-900);
+}
+.mjp-rowline .help {
+  margin-top: 3px;
+  font-size: var(--fs-11);
+  line-height: 1.55;
+  color: var(--ink-400);
+}
+/* 三列行内嵌的表单控件不撑破网格 */
+.mjp-rowline > * {
+  min-width: 0;
+}
+.mjp-rowline .mjp-seg {
+  margin-bottom: 0;
+}
+
+/* 行与横幅之间的呼吸：横幅在 96 里只有 margin-bottom，紧跟信息行时会贴住分隔线。 */
+.mjp-card-bd > .mjp-banner {
+  margin-top: var(--sp-4);
+}
+.mjp-card-bd > .mjp-banner:first-child {
+  margin-top: 0;
+}
+
+/* ===================== 等宽路径条 ===================== */
+.mjp-path {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 100%;
+  padding: 7px 10px;
+  background: var(--paper-2);
+  border: 1px solid var(--line-1);
+  border-radius: var(--r-md);
+  font-family: var(--font-mono);
+  font-size: var(--fs-12);
+  color: var(--ink-700);
+  white-space: nowrap;
+  overflow-x: auto;
+}
+.mjp-path .d {
+  flex: 0 0 7px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--ok);
+}
+/* 服务不可达时状态点转红，与同行的「不可达」状态字保持一致。 */
+.mjp-path .d.warn {
+  background: var(--danger);
+}
+
+/* ===================== 键值网格 ===================== */
+/* .mjp-kv 自身（96）是纵向两行（.k 标签 / .v 取值），这里只负责把它们排成网格。 */
+.mjp-kv-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--sp-3) var(--sp-5);
+}
+.mjp-kv-grid.is-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.mjp-kv-grid > .mjp-kv {
+  min-width: 0;
+}
+/* 路径、包名、分支这类长值是连字符/斜杠串，允许在任意位置断行，避免撑破卡片。 */
+.mjp-kv-grid > .mjp-kv > .v {
+  overflow-wrap: anywhere;
+}
+
+/* ===================== 正文字体预览 ===================== */
+.mjp-prose-preview {
+  margin: 10px 0 0;
+  padding: 10px 12px;
+  background: var(--paper-2);
+  border: 1px dashed var(--line-1);
+  border-radius: var(--r-md);
+  font-size: var(--fs-15);
+  line-height: 1.9;
+  color: var(--ink-700);
+}
+
+/* ===================== 表格滚动容器 ===================== */
+/* 96 的 .mjp-tbl th 是 sticky，必须有一个滚动容器才不会在窄屏下把卡片撑破。 */
+.mjp-tbl-wrap {
+  max-width: 100%;
+  overflow-x: auto;
+}
+.mjp-tbl-wrap .mjp-tbl { min-width: 640px; }
+html[data-theme='night'] .mjp-tbl-wrap { color-scheme: dark; }
+.mjp-tbl-wrap .mjp-tbl tr:last-child td {
+  border-bottom: 0;
+}
+/* 嵌入信息行中列的表格（如「全部检查点」）：限高纵滚 + 描边，与路径条同一套观感。 */
+.mjp-tbl-wrap.is-inset {
+  max-height: 320px;
+  overflow-y: auto;
+  background: var(--paper-1);
+  border: 1px solid var(--line-1);
+  border-radius: var(--r-lg);
+}
+
+/* ===================== 页脚 ===================== */
+.mjp-settings-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-4);
+  width: min(100%, 1180px);
+  margin: auto auto 0;
+  padding-top: var(--sp-4);
+  border-top: 1px solid var(--line-1);
+  font-size: var(--fs-11);
+  color: var(--ink-400);
+}
+.mjp-settings-foot .mjp-muted {
+  font-size: var(--fs-11);
+}
+
+/* ===================== 外观偏好落地 ===================== */
+/* 正文字体：useTheme.ts 把偏好写到 documentElement.dataset.font，
+   这里把它解析成 --font-prose，再由 .mjp-prose 消费。
+   96 里 .mjp-prose 直接写死 var(--font-serif)，本文件在其之后加载，同权重覆盖。 */
+:root {
+  --font-prose: var(--font-serif);
+}
+[data-font='serif'] {
+  --font-prose: var(--font-serif);
+}
+[data-font='sans'] {
+  --font-prose: var(--font-ui);
+}
+[data-font='system'] {
+  --font-prose: system-ui, -apple-system, 'Segoe UI', 'Microsoft YaHei UI', sans-serif;
+}
+.mjp-prose {
+  font-family: var(--font-prose);
+}
+
+/* 减少动效：dataset.motion = 'off' 时把所有过渡与动画压到一帧。
+   刻意用 0.001ms 而不是 0s —— 保留 transitionend / animationend 事件，
+   避免依赖这些事件回调的逻辑被静默挂住。 */
+[data-motion='off'] *,
+[data-motion='off'] *::before,
+[data-motion='off'] *::after {
+  transition-duration: 0.001ms !important;
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  scroll-behavior: auto !important;
+}
+
+/* ===================== 响应式 ===================== */
+/* 桌面客户端在 125%/150% 缩放下有效 CSS 像素会变少，所以按内容宽度分三档收紧。 */
+@media (max-width: 1180px) {
+  .mjp-rowline {
+    grid-template-columns: 158px minmax(0, 1fr) auto;
+    gap: var(--sp-3);
+  }
+  .mjp-kv-grid.is-3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* 窄档：标签块与取值改为上下排布，三列行的占位格（空 div）隐去。 */
+@media (max-width: 1000px) {
+  .mjp-rowline {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+    padding: 12px 0;
+  }
+  .mjp-rowline > div:last-child:empty {
+    display: none;
+  }
+  .mjp-kv-grid,
+  .mjp-kv-grid.is-3 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .mjp-settings-page {
+    padding: 22px 16px 32px;
+  }
+  .mjp-settings-hero,
+  .mjp-settings-summary {
+    width: 100%;
+  }
+  .mjp-settings-hero {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .mjp-settings-section-head {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .mjp-settings-section-head .actions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .mjp-settings-summary {
+    grid-template-columns: 1fr;
+  }
+  .mjp-settings-summary-stat {
+    align-items: flex-start;
+    padding: 12px 0 0;
+    border-top: 1px solid var(--line-1);
+    border-left: 0;
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "extends": "../../tsconfig.node.json",
+  "compilerOptions": { "composite": true },
+  "include": ["src/**/*.ts", "../api/src/**/*.ts", "../../packages/core/src/**/*.ts", "../../packages/contracts/src/**/*.ts"]
+}

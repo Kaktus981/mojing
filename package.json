@@ -1,0 +1,101 @@
+{
+  "name": "mojing-novel-studio",
+  "version": "1.0.0",
+  "description": "本地优先的 AI 长篇小说创作桌面应用",
+  "main": "./out/main/index.js",
+  "author": "墨境",
+  "license": "AGPL-3.0-only",
+  "type": "module",
+  "workspaces": ["apps/*", "packages/*"],
+  "scripts": {
+    "dev": "node node_modules/concurrently/dist/bin/concurrently.js -k -n API,WEB -c magenta,cyan \"npm run dev:api\" \"npm run dev:web\"",
+    "dev:web": "node node_modules/vite/bin/vite.js --config apps/web/vite.config.ts",
+    "dev:api": "node node_modules/tsx/dist/cli.mjs watch apps/api/src/dev.ts",
+    "dev:desktop": "node node_modules/electron-vite/bin/electron-vite.js dev",
+    "build": "node node_modules/typescript/bin/tsc --noEmit -p tsconfig.node.json && node node_modules/typescript/bin/tsc --noEmit -p tsconfig.web.json && node node_modules/electron-vite/bin/electron-vite.js build",
+    "typecheck": "node node_modules/typescript/bin/tsc --noEmit -p tsconfig.node.json && node node_modules/typescript/bin/tsc --noEmit -p tsconfig.web.json",
+    "test": "node node_modules/vitest/vitest.mjs run",
+    "test:watch": "node node_modules/vitest/vitest.mjs",
+    "test:e2e": "node tests/e2e/run-e2e.mjs",
+    "check:closure": "node tools/check-repo-closure.mjs",
+    "check:closure:strict": "node tools/check-repo-closure.mjs --strict",
+    "check:closure:strict-all": "node tools/check-repo-closure.mjs --strict-all",
+    "dist:win": "npm run build && node tools/build-windows-installer.mjs"
+  },
+  "dependencies": {
+    "better-sqlite3": "^12.2.0",
+    "docx": "^9.5.1",
+    "fastify": "^5.5.0",
+    "@fastify/cors": "^11.1.0",
+    "@fastify/multipart": "^9.2.1",
+    "lucide-react": "^0.468.0",
+    "mammoth": "^1.10.0",
+    "openai": "^5.12.2",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "zod": "^3.25.76",
+    "zod-to-json-schema": "^3.24.6",
+    "zustand": "^5.0.7"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/node": "^22.17.0",
+    "@types/react": "^19.1.10",
+    "@types/react-dom": "^19.1.7",
+    "@playwright/test": "^1.54.2",
+    "@vitejs/plugin-react": "^4.7.0",
+    "electron": "^37.2.6",
+    "electron-builder": "^26.0.12",
+    "electron-vite": "^4.0.0",
+    "concurrently": "^9.2.0",
+    "cross-env": "^7.0.3",
+    "tsx": "^4.20.3",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.1",
+    "vitest": "^3.2.4"
+  },
+  "build": {
+    "appId": "cn.mojing.novel",
+    "productName": "墨境",
+    "npmRebuild": false,
+    "afterPack": "tools/electron-builder-after-pack.cjs",
+    "directories": {
+      "output": "release/mojing"
+    },
+    "files": [
+      "out/**/*",
+      "package.json",
+      "!**/*.md",
+      "!**/*.markdown",
+      "!**/README*"
+    ],
+    "asarUnpack": [
+      "**/node_modules/better-sqlite3/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "build/mojing-icon.png",
+        "to": "mojing-icon.png"
+      }
+    ],
+    "win": {
+      "icon": "build/mojing-icon.ico",
+      "target": [
+        "nsis"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": false,
+      "runAfterFinish": true,
+      "language": "2052",
+      "installerLanguages": ["zh_CN"],
+      "artifactName": "Mojing_${version}_x64_Setup.${ext}",
+      "installerSidebar": "build/installerSidebar.bmp",
+      "include": "build/installer.nsh",
+      "shortcutName": "墨境"
+    }
+  }
+}
